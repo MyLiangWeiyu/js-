@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<style>
+			div{
+				width: 200px;
+				margin-bottom: 10px;
+				text-align: center;
+				line-height: 200px;
+			}
+			#div11{
+				background-color: #28A4C9;
+			}
+			#div22{
+				background-color: red;
+			}
+		</style>
+	</head>
+	<body>
+		<div  ondragover="over(event)" ondrop="drop(event)">
+			<div id="div11" draggable="true" ondragstart="drag(event)">第一个</div>
+		</div>
+		<div  ondragover="over(event)" ondrop="drop(event)">
+			<div id="div22" draggable="true" ondragstart="drag(event)">第二个</div>
+		</div>
+		<script>
+			function  over(ev){
+				ev.preventDefault();
+			}
+			function drag(ev){
+				ev.dataTransfer.setData('id',ev.target.id)
+			}
+			
+			function drop(ev){
+				ev.preventDefault();
+				//这是拖拽的id
+				var beiId = ev.dataTransfer.getData('id');
+				//这是放置的id
+				var fangzhiId=ev.target.id;
+			
+				var bei=document.getElementById(beiId);
+				var fangzhi=document.getElementById(fangzhiId);
+				var beiParent=bei.parentNode;
+				var fangzhiParent=fangzhi.parentNode
+				
+				beiParent.appendChild(fangzhi)
+				fangzhiParent.appendChild(bei);
+				
+				
+			}
+		</script>
+	</body>
+</html>

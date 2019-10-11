@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<style>
+			table{
+				border-spacing: 0;
+				border: none;
+				border-collapse: collapse;
+				margin: 40px auto;
+			}
+			td,div{
+				width: 100px;
+				height: 100px;
+				border: 1px solid #CCCCCC;
+				cursor: pointer;
+			}
+			.tu{
+				background: url(img/timg.jpg)no-repeat;
+				
+			}
+			#z-1{
+				background-position: -109px -86px;
+			}
+			#z-2{
+				background-position: -211px -86px;
+			}
+			#z-3{
+				background-position: -314px -86px;
+			}
+			
+			#z-4{
+				background-position: -109px -190px;
+			}
+			#z-5{
+				background-position: -211px -190px;
+			}
+			#z-6{
+				background-position: -314px -190px;
+			}
+			
+			#z-7{
+				background-position: -109px -290px;
+			}
+			#z-8{
+				background-position: -214px -290px;
+			}
+			#z-9{
+				background-position: -314px -290px;
+			}
+			button{
+				display: block;
+				margin: 0 auto;
+				border: none;
+				outline: none;
+				width: 200px;
+				height: 50px;
+				background-color: #39B3D7;
+				font-size: 20px;
+				border-radius: 5px;
+				cursor: pointer;
+			}
+		</style>
+	</head>
+	<body>
+		<table>
+			<tr class="t1">
+				<td id="f-1" ondragover="dragover(event)" ondrop="drop(event)">
+					<div class="tu" id="z-1" draggable="true" ondragstart="drag(event)"></div>
+				</td>
+				<td id="f-2" ondragover="dragover(event)" ondrop="drop(event)">
+					<div class="tu" id="z-2" draggable="true" ondragstart="drag(event)"></div>
+				</td>
+				<td id="f-3" ondragover="dragover(event)" ondrop="drop(event)">
+					<div class="tu" id="z-3" draggable="true" ondragstart="drag(event)"></div>
+				</td>
+			</tr>
+			<tr class="t2">
+				<td id="f-4" ondragover="dragover(event)" ondrop="drop(event)">
+					<div class="tu" id="z-4" draggable="true" ondragstart="drag(event)"></div>
+				</td>
+				<td id="f-5" ondragover="dragover(event)" ondrop="drop(event)">
+					<div class="tu" id="z-5" draggable="true" ondragstart="drag(event)"></div>
+				</td>
+				<td id="f-6" ondragover="dragover(event)" ondrop="drop(event)">
+					<div class="tu" id="z-6" draggable="true" ondragstart="drag(event)"></div>
+				</td>
+			</tr>
+			<tr class="t3">
+				<td id="f-7" ondragover="dragover(event)" ondrop="drop(event)">
+					<div class="tu" id="z-7" draggable="true" ondragstart="drag(event)"></div>
+				</td>
+				<td id="f-8" ondragover="dragover(event)" ondrop="drop(event)">
+					<div class="tu" id="z-8" draggable="true" ondragstart="drag(event)"></div>
+				</td>
+				<td id="f-9" ondragover="dragover(event)" ondrop="drop(event)">
+					<div class="tu" id="z-9" draggable="true" ondragstart="drag(event)"></div>
+				</td>
+			</tr>  
+		</table>
+		 <button id="btn">打乱</button>
+		<script>
+			// 计时
+			var t=0,tiem=null;
+			function drag(ev)
+			{
+				ev.dataTransfer.setData('id',ev.target.id);
+			}
+			function dragover(ev)
+			{
+				ev.preventDefault();
+			}
+			function drop(ev)
+			{
+				//获取拖拽的id
+				var tuoId=ev.dataTransfer.getData('id');
+				//获取放置的id
+				var fzId=ev.target.id;
+				//根据id获取放置的元素
+				var fzElem=document.getElementById(fzId);
+				//根据id获取拖放的元素
+				var tuoElem=document.getElementById(tuoId);
+				//获取元素的父亲
+				var fzElemParent=fzElem.parentNode;
+				var tuoElemParent=tuoElem.parentNode;
+				//插入元素
+				tuoElemParent.appendChild(fzElem);
+				fzElemParent.appendChild(tuoElem)
+				ev.preventDefault();
+				isNum()
+			}
+			//判断是否完成
+			var tu=document.getElementsByClassName('tu');
+			function isNum(){
+				var coun=0;
+				for(let i=0;i<tu.length;i++){
+					var tuParent=tu[i].parentNode;
+					var tuParentId=tuParent.id;
+					var tuId=tu[i].id;
+					if(tuParentId.replace('f-','')==tuId.replace('z-','')){
+						coun++;
+					}
+					console.log(tuParentId)
+					console.log(tuId)
+				}
+				if(coun==tu.length){
+					clearTimeout(out)
+					var out=setTimeout(function(){
+						alert('恭喜你拼图完成，真厉害^-^,用时为：'+t+'秒');
+						clearInterval(tiem)
+						clearTimeout(out)
+					},200)
+					
+					
+				}
+			}
+			//打乱顺序
+			var btn=document.getElementById('btn');
+			btn.onclick=function(){
+				clearInterval(tiem)
+				for (var i=0;i<200;i++){
+					var m=parseInt(Math.random()*9);
+					var n=parseInt(Math.random()*9);
+					var mParent=tu[m].parentNode;
+					var nParent=tu[n].parentNode;
+					mParent.appendChild(tu[n]);
+					nParent.appendChild(tu[m]);
+					}
+				tiem=setInterval(function(){
+					t++;
+				},1000)
+			}
+		</script>
+	</body>
+</html>
